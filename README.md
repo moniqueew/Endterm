@@ -63,6 +63,7 @@ DELETE
 <img width="1780" height="299" alt="image" src="https://github.com/user-attachments/assets/7d68d209-71f1-4c65-bbec-38af06c90d79" />
 
 Reflection 
+
 This project was a very important step for me. I learned how to use a layered architecture, which helps to organize code so that every part has its own job. 
 I also worked with JDBC and transactions to make sure the data stays safe and correct. Additionally, I learned how to create REST APIs that work well and handle errors correctly. 
 Finally, I improved my skills in finding and fixing SQL problems. This project showed me that good organization makes software much easier to grow and fix in the future.
