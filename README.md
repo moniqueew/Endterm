@@ -34,13 +34,11 @@ Each animal contains a Shelter object
 Shelter is stored as a separate table and referenced using a foreign key
 
 Exception Handling
-InvalidInputException → 400 Bad Request
 
-ResourceNotFoundException → 404 Not Found
-
-DuplicateResourceException → 409 Conflict
-
-DatabaseOperationException → 500 Internal Server Error
+-InvalidInputException → 400 Bad Request
+-ResourceNotFoundException → 404 Not Found
+-DuplicateResourceException → 409 Conflict
+-DatabaseOperationException → 500 Internal Server Error
 
 How to Run the Project
 Requirements:Java 17+, Maven, PostgreSQL
