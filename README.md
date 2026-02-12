@@ -63,6 +63,11 @@ PUT
 DELETE
 <img width="1780" height="299" alt="image" src="https://github.com/user-attachments/assets/7d68d209-71f1-4c65-bbec-38af06c90d79" />
 
+SQL DATABASE
+
+<img width="776" height="770" alt="image" src="https://github.com/user-attachments/assets/b581c9cc-a686-40f3-83ef-ccdd9a04e771" />
+
+
 Reflection 
 
 This project was a very important step for me. I learned how to use a layered architecture, which helps to organize code so that every part has its own job. 
