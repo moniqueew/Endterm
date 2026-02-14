@@ -1,5 +1,6 @@
 package com.aidos.PetAdopterCenter.service;
 
+import com.aidos.PetAdopterCenter.Cache.AnimalCache;
 import com.aidos.PetAdopterCenter.dto.AnimalRequest;
 import com.aidos.PetAdopterCenter.dto.AnimalUpdate;
 import com.aidos.PetAdopterCenter.exception.DatabaseOperationException;
@@ -15,21 +16,31 @@ import com.aidos.PetAdopterCenter.repository.AnimalRepository;
 import com.aidos.PetAdopterCenter.repository.ShelterRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AnimalService {
 
     private final AnimalRepository animalRepo;
     private final ShelterRepository shelterRepo;
+    private final AnimalCache cache;
 
     public AnimalService(AnimalRepository animalRepo, ShelterRepository shelterRepo) {
         this.animalRepo = animalRepo;
         this.shelterRepo = shelterRepo;
+        this.cache = AnimalCache.getInstance();
     }
 
     public List<AnimalBase> getAllAnimals() {
+        Optional<List<AnimalBase>> cached = cache.getAllAnimals();
+        if (cached.isPresent()) {
+            return cached.get();
+        }
+
         try {
-            return animalRepo.getAll();
+            List<AnimalBase> animals = animalRepo.getAll();
+            cache.cacheAllAnimals(animals);
+            return animals;
         } catch (DataAccessException e) {
             throw new DatabaseOperationException("Database can't access", e);
         }
@@ -37,10 +48,15 @@ public class AnimalService {
 
     public AnimalBase getAnimalById(int id) {
         if (id <= 0) throw new InvalidInputException("id must be positive");
+        Optional<AnimalBase> cached = cache.getAnimalById(id);
+        if (cached.isPresent()) {
+            return cached.get();
+        }
 
         try {
-            return animalRepo.getById(id)
-                    .orElseThrow(() -> new ResourceNotFoundException("Animal " + id + " not found"));
+            AnimalBase animal = animalRepo.getById(id).orElseThrow(() -> new ResourceNotFoundException("Animal " + id + " not found"));
+            cache.cacheAnimal(animal);
+            return animal;
         } catch (DataAccessException e) {
             throw new DatabaseOperationException("Database can't access", e);
         }
@@ -66,6 +82,8 @@ public class AnimalService {
             AnimalBase animal = AnimalFactory.create(req, shelter);
 
             animal.validate();
+
+            cache.invalidateAllAnimals();
 
             return animalRepo.create(animal);
 
@@ -117,6 +135,8 @@ public class AnimalService {
         if (affected == 0) {
             throw new ResourceNotFoundException("Animal not found id: " + id);
         }
+        cache.invalidateAnimal(id);
+        cache.invalidateAllAnimals();
     }
 
     @Transactional
@@ -128,6 +148,10 @@ public class AnimalService {
             if (affected == 0) {
                 throw new ResourceNotFoundException("Animal not found id:" + id);
             }
+
+            cache.invalidateAnimal(id);
+            cache.invalidateAllAnimals();
+
         } catch (DataAccessException e) {
             throw new DatabaseOperationException("Database error while deleting animal", e);
         }

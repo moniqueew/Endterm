@@ -1,5 +1,6 @@
 package com.aidos.PetAdopterCenter.controller;
 
+import com.aidos.PetAdopterCenter.Cache.AnimalCache;
 import com.aidos.PetAdopterCenter.dto.AnimalRequest;
 import com.aidos.PetAdopterCenter.dto.AnimalResponse;
 import com.aidos.PetAdopterCenter.dto.AnimalUpdate;
@@ -49,5 +50,11 @@ public class AnimalController {
     public ResponseEntity<?> delete(@PathVariable int id) {
         service.removeAnimal(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/cache")
+    public ResponseEntity<?> clearCache() {
+        AnimalCache.getInstance().clearCache();
+        return ResponseEntity.ok("Cache cleared successfully");
     }
 }
