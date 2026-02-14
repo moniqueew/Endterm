@@ -73,3 +73,29 @@ Reflection
 This project was a very important step for me. I learned how to use a layered architecture, which helps to organize code so that every part has its own job. 
 I also worked with JDBC and transactions to make sure the data stays safe and correct. Additionally, I learned how to create REST APIs that work well and handle errors correctly. 
 Finally, I improved my skills in finding and fixing SQL problems. This project showed me that good organization makes software much easier to grow and fix in the future.
+
+
+Bonus Task
+DELETE cache
+<img width="1481" height="306" alt="image" src="https://github.com/user-attachments/assets/9d560868-98dd-433e-9c5f-38b59973daae" />
+
+1. Performance Improvement
+The system now makes fewer database requests when the same data is needed many times. This helps the method getAllAnimals() work faster and improves response time.
+
+2. Better Architecture
+
+- The project uses the Singleton pattern, so there is only one cache object in the system.
+- All cache logic is placed in a separate class.
+- This keeps the project structure clean and organized.
+
+3. Data Consistency
+- The cache is automatically updated after data changes (for example, after adding or editing information).
+- If needed, it can also be controlled manually.
+- Because of this, users always receive correct and up-to-date data.
+
+4. SOLID Principles
+- The project follows SOLID principles:
+- Single Responsibility Principle – The AnimalCache class is responsible only for caching.
+- Open/Closed Principle – It is easy to add new caching strategies without changing existing code.
+- Dependency Inversion Principle – The service works with a cache interface, not with a specific implementation.
+
